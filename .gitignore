@@ -5,3 +5,6 @@
 
 # Virtualenv
 venv/
+
+# Logging
+*.log
