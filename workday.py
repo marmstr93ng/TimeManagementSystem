@@ -7,11 +7,12 @@ class WorkDay(object):
     def __init__(self):
         self.curr_time = datetime.datetime.now().time()
         self.clockings = []
+        self.no_clk_out = False
         self.total_time_min = 0
         self.total_time = ""
-        self.break_time = 0
         self.break_rule = "rule_1"
-        self.no_clk_out = False
+        self.break_time = 0
+        self.auth_absence = "--:--"
 
     def add_clocking(self, clock_str):
         self.clockings.append(clock_str)
@@ -41,9 +42,10 @@ class WorkDay(object):
     def _calc_pair_time_contrib(self, pair_num):
         time_clk_in = self._calc_clk_val(self.clockings[pair_num * 2])
         time_clk_out = self._calc_clk_val(self.clockings[(pair_num * 2) + 1])
-        print("Pair {} IN: {} ({}) OUT: {} ({})".format(pair_num, self.clockings[(pair_num * 2)], time_clk_in, self.clockings[(pair_num * 2) + 1], time_clk_out))
-
-        return time_clk_out - time_clk_in
+        pair_total_time = time_clk_out - time_clk_in
+        
+        print("Pair {} IN: {} ({}) OUT: {} ({}) Total: {}".format(pair_num, self.clockings[(pair_num * 2)], time_clk_in, self.clockings[(pair_num * 2) + 1], time_clk_out, pair_total_time))
+        return pair_total_time
 
     def _check_after_two(self):
         time_clk_out = self._calc_clk_val(self.clockings[-1])
@@ -64,6 +66,15 @@ class WorkDay(object):
         print("Break Time in minutes: {}".format(self.break_time))
         return self.break_time
 
+    def _calc_auth_absence(self):
+        if self.auth_absence == "--:--":
+            auth_absence_min = 0
+        else:
+            auth_absence_min = self._calc_clk_val(self.auth_absence)
+
+        print("Authorised Absence: {} ({})".format(self.auth_absence, auth_absence_min))
+        return auth_absence_min
+            
     def _modify_total_time(self, mod, time):
         if mod == "+":
             self.total_time_min = self.total_time_min + time
@@ -75,25 +86,27 @@ class WorkDay(object):
 
         self.total_time = self._conv_time_int_to_str(self.total_time_min)
 
+        print("Modifying the total time by {} minutes to {} ({})".format(time, self.total_time, self.total_time_min))
+
+    def _check_still_working(self):
+        if len(self.clockings)%2 != 0:
+            self.no_clk_out = True
+            self.add_clocking("{}:{:02d}".format(self.curr_time.hour, self.curr_time.minute))
+            print("No final clk out detected. Adding current time {}:{:02d} as a clk".format(self.curr_time.hour, self.curr_time.minute))
+
     def calc_day_total_time(self):
         if len(self.clockings) == 0:
             raise ValueError("No Clockings added for the workday")
 
-        if len(self.clockings)%2 != 0:
-            self.no_clk_out = True
-            self.add_clocking("{}:{:02d}".format(self.curr_time.hour, self.curr_time.minute))
-            print("No final clk out detected. Adding current time: {}:{:02d}".format(self.curr_time.hour, self.curr_time.minute))
+        self._check_still_working()
 
         clk_pairs = math.ceil(len(self.clockings)/2)
         for pair_num in range(0, clk_pairs):
-
-            pair_time = self._calc_pair_time_contrib(pair_num)
-            print("Pair {} time in minutes: {}".format(pair_num, pair_time))
-
-            self._modify_total_time("+", pair_time)
-            print("Current Total Time (min): {} ({})".format(self.total_time, self.total_time_min))
+            self._modify_total_time("+", self._calc_pair_time_contrib(pair_num))
 
         self._modify_total_time("-", self._calc_break_time())
+
+        self._modify_total_time("+", self._calc_auth_absence())
 
 today = WorkDay()
 #today.get_break_rule_def("rule_2")

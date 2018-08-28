@@ -1,7 +1,7 @@
 # Time Management System Emulator
 Tool for recording and calculating work hours
 
-Rationale: Not having your clock in card is annoying. A manager is required to input the lost data and even then the information can't be input until the next working day. This can lead to problems especially if the day the card is left is the end of the week. TMS is aimed to alleviate these problems by created a system emulator. Missed data can be input and an accurate view of the work week timings can be obtained.
+Rationale: Not having your clock in card is annoying. A manager is required to input the lost data and even then the information can't be input until the next working day. This can lead to problems especially if the day the card is left is the end of the week. TMS is aimed to alleviate these problems by created a system emulator. Missed data can be input and an accurate view of the work week timings can be obtained. Speculative data can be added to see how clocking times would affect total hours.
 
 Steps:
 1. Day Calculator - A way of calculating the would-be times of the day missed.
@@ -30,8 +30,7 @@ https://automatetheboringstuff.com/chapter11/ - Starting a Selenium-Controlled B
 
 ## ToDo (No order)
 1. Python project layout - modules? utilities (e.g. chromedriver, example_tms_page)
-2. Logging
-3. Lunch Rules
+2. Logging - methods should have output logged within them
 4. Multiple days - Total work week
 5. Develop web scraper - move to main.(must be kept as an optional step to fit into other TMSs)
 6. Verification check against TMS daily totals
