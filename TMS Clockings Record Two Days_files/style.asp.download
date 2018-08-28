@@ -1,0 +1,119 @@
+
+
+body
+{
+	margin: 0;
+	padding: 10px;
+}
+
+body, td, th
+{
+	font-family: Verdana;
+	font-size: 12px;
+}
+
+h1
+{
+	margin: -10px;
+	margin-bottom: 20px;
+	padding: 6px 20px 6px 20px;
+	font-family: Trebuchet MS;
+	font-size: 16px;
+	font-weight: bold;
+	background: #fff url("images/h1.png");
+	background-repeat: repeat-x;
+	background-position: bottom;
+	border-bottom: 1px solid #bbb;
+}
+
+#Clock
+{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-family: Trebuchet MS;
+	font-weight: bold;
+}
+
+#Buttons
+{
+	text-align: center;
+}
+
+#Buttons input
+{
+	background-color: #eef;
+}
+
+.ClockingsTable
+{
+	border-collapse: collapse;
+	border: 1px solid #bbb;
+	margin: 10px auto;
+}
+
+.ClockingsTable th, .ClockingsTable td
+{
+	padding: 2px 10px;
+	border: 1px solid #bbb;
+}
+
+.ClockingsTable th, .ClockingsTable td.label
+{
+	text-align: left;
+	padding: 5px 10px;
+	font-family: Georgia;
+	font-weight: bold;
+}
+
+.ClockingsTable th
+{
+	text-align: center;
+	border-bottom: 3px double #bbb;
+}
+
+.ClockingsTable td
+{
+	text-align: center;
+}
+
+.ClockingsTable td.weeklyTotal
+{
+	font-weight: bold;
+}
+
+.past
+{
+	
+}
+
+.present
+{
+	background-color: #fee;
+}
+
+.future
+{
+	background-color: #eee;
+}
+
+.Clocking
+{
+	margin: 5px 0;
+	padding: 1px;
+	background-color: #fafafa;
+	border: 1px solid #bbb;
+	cursor: default;
+}
+
+.Auth
+{
+	background-color: #eef;
+	border: 1px solid #bbf;
+}
+
+.Bus
+{
+	background-color: #efe;
+	border: 1px solid #bfb;
+}
