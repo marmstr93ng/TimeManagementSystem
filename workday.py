@@ -10,10 +10,16 @@ class WorkDay(object):
         self.total_time_min = 0
         self.total_time = ""
         self.break_time = 0
+        self.break_rule = "rule_1"
         self.no_clk_out = False
 
     def add_clocking(self, clock_str):
         self.clockings.append(clock_str)
+
+    def get_break_rule_def(self, break_rule=None):
+        if not break_rule: break_rule = self.break_rule
+        rule_def = {"rule_1":"If after 14:00, 45 minutes deducted", "rule_2":"15 minutes deducted on arrival with the remaining 30 minutes subtracted after 14:00"}
+        print("{}: {}".format(break_rule, rule_def.get(break_rule,"Rule doesn't exist")))
 
     def _conv_to_min(self, value, time_div):
         if time_div.lower() == 'h':
@@ -40,11 +46,6 @@ class WorkDay(object):
         return time_clk_out - time_clk_in
 
     def _calc_break_time(self):
-        # Rule 1: if after 14:00 45 min
-        # Rule 2: 15 min at start of day and if after 14:00 30min
-        # returns total break time to be deducted from the total
-        # Rule needs to be identified
-
         time_clk_out = self.calc_clk_val(self.clockings[-1])
 
         if time_clk_out >= self.calc_clk_val("14:00"):
@@ -85,10 +86,11 @@ class WorkDay(object):
         self.modify_total_time("-", self.calc_break_time())
 
 today = WorkDay()
-today.add_clocking("9:28")
-today.add_clocking("12:09")
+today.get_break_rule_def()
+#today.add_clocking("9:28")
+#today.add_clocking("12:09")
 #today.add_clocking("13:01")
 #today.add_clocking("13:59")
 #today.add_clocking("16:13")
-today.calc_day_total_time()
+#today.calc_day_total_time()
 print(today.total_time)
