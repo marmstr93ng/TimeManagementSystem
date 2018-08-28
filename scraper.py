@@ -3,9 +3,9 @@ import os
 import re
 
 # tms_url = "http://intranet.andor.com/tms/"
-tms_url = '{}\TMS Clockings Record Two Days.html'.format(os.getcwd())
+tms_url = '{}/utils/test_tms_pages/TMSClockingsRecordTwoDays.html'.format(os.getcwd())
 
-with webdriver.Chrome(executable_path='{}\chromedriver.exe'.format(os.getcwd())) as browser:
+with webdriver.Chrome(executable_path='{}/utils/chromedriver.exe'.format(os.getcwd())) as browser:
     browser.get(tms_url)
 
     user_id, user_name = re.match("TMS Clockings for ([0-9]+): (.*)", browser.find_element_by_tag_name("h1").text).groups()
