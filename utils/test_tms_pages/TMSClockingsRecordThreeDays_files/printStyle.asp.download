@@ -1,0 +1,57 @@
+
+
+body
+{
+	font-family: Verdana;
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+}
+
+h1
+{
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#Clock, #Buttons
+{
+	display: none;
+}
+
+.ClockingsTable
+{
+	border-collapse: collapse;
+	border: 1px solid #000;
+	margin: 20px;
+}
+
+.ClockingsTable th, .ClockingsTable td
+{
+	padding: 2px 10px;
+	text-align: center;
+	border-bottom: 1px solid #000;
+}
+
+.ClockingsTable td.label
+{
+	text-align: left;
+	font-weight: bold;
+}
+
+.ClockingsTable th
+{
+	font-weight: bold;
+	border-bottom: 3px double #000;
+}
+
+.ClockingsTable td.weeklyTotal
+{
+	font-weight: bold;
+}
+
+.Clocking
+{
+	border: 1px solid #000;
+	margin: 5px 0;
+}

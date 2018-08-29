@@ -1,0 +1,53 @@
+
+function page_init()
+{
+	var i, e;
+	
+	// Assign events
+	for (i=0; i < document.getElementsByTagName("div").length; i++)
+	{
+		e = document.getElementsByTagName("div")[i];
+		if (e.className.match("item"))
+		{
+			e.onmouseover = highlight;
+			e.onmouseout = unhighlight;
+		}
+		if (e.className.match("title"))
+		{
+			e.onclick = toggleMenu;
+		}
+	}
+
+}
+
+function highlight()
+{	
+	this.style.backgroundColor = "#2938AB";
+	this.style.textDecoration = "underline";
+}
+
+function unhighlight()
+{
+	this.style.backgroundColor = "";
+	this.style.textDecoration = "";
+}
+
+
+function toggleMenu()
+{
+	var menu = document.getElementById(this.getAttribute("menu"));
+	
+	if (menu.style.display == "block")
+	{
+		this.innerHTML = "+" + this.innerHTML.substr(1);
+		this.style.fontWeight = "";
+		menu.style.display = "";
+	}
+	else
+	{
+		this.innerHTML = "-" + this.innerHTML.substr(1);
+		this.style.fontWeight = "bold";
+		menu.style.display = "block";
+	}
+}
+

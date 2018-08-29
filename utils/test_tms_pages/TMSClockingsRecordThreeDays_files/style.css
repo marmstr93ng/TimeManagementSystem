@@ -1,0 +1,65 @@
+
+body
+{
+	/*old background colour is #547493, #527CCE */
+	background-color: #1C2674;
+	color: #fff;
+	font-family: Tahoma;
+	font-size: 12px;
+	margin-left: 20px;
+	scrollbar-face-color: #1C2674;
+	scrollbar-highlight-color: #006087;
+}
+
+a
+{
+	text-decoration: none;
+	color: #fff;
+}
+
+div.menu
+{
+	display: none;
+	margin-left: 10px;
+}
+
+div.menu#base
+{
+	display: block;
+	margin-left: 0;
+}
+
+div.item
+{
+	
+}
+
+div.title
+{
+	cursor: pointer;
+}
+
+div#googleForm
+{
+	border: 1px solid #bbb;
+	padding: 5px;
+	text-align: center;
+}
+
+div#googleForm input.textbox
+{
+	border: 1px solid #325271;
+	width: 140px;
+	padding: 2px 5px;
+	margin: 5px;
+}
+
+div#googleForm input.textbox:focus
+{
+	background-color: #eff;
+}
+
+div#googleForm input.button
+{
+	border: 1px solid #325271;
+}
