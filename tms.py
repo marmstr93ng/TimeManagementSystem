@@ -7,7 +7,7 @@ def main():
     """Function that defines the workflow of the tool"""
 
     logging.config.fileConfig('logging/log_settings.conf')
-    logging.info("Beginning Script")
+    logging.info("Running Time Management System Emulator")
 
     today = WorkDay()
     #today.get_break_rule_def("rule_2")

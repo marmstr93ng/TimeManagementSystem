@@ -1,7 +1,10 @@
+import logging
 import datetime
 from time import strftime
 import re
 import math
+
+logging.config.fileConfig('logging/log_settings.conf')
 
 class WorkDay(object):
     def __init__(self):
@@ -23,7 +26,7 @@ class WorkDay(object):
 
     def get_break_rule_def(self, break_rule=None):
         if not break_rule: break_rule = self.break_rule
-        print("{}: {}".format(break_rule, self.rule_def.get(break_rule,"Rule doesn't exist")))
+        logging.error("{}: {}".format(break_rule, self.rule_def.get(break_rule,"Rule doesn't exist")))
 
     def _conv_to_min(self, value, time_div):
         if time_div.lower() == 'h':
@@ -47,7 +50,7 @@ class WorkDay(object):
         time_clk_out = self._calc_clk_val(self.clockings[(pair_num * 2) + 1])
         pair_total_time = time_clk_out - time_clk_in
 
-        print("Pair {} IN: {} ({}) OUT: {} ({}) Total: {}".format(pair_num, self.clockings[(pair_num * 2)], time_clk_in, self.clockings[(pair_num * 2) + 1], time_clk_out, pair_total_time))
+        logging.debug("Pair {} IN: {} ({}) OUT: {} ({}) Total: {}".format(pair_num, self.clockings[(pair_num * 2)], time_clk_in, self.clockings[(pair_num * 2) + 1], time_clk_out, pair_total_time))
         return pair_total_time
 
     def _check_after_two(self):
@@ -66,7 +69,7 @@ class WorkDay(object):
             if self._check_after_two():
                 self.break_time = 45
 
-        print("Break Time in minutes: {}".format(self.break_time))
+        logging.debug("Break Time in minutes: {}".format(self.break_time))
         return self.break_time
 
     def _calc_auth_absence(self):
@@ -75,7 +78,7 @@ class WorkDay(object):
         else:
             auth_absence_min = self._calc_clk_val(self.auth_absence)
 
-        print("Authorised Absence: {} ({})".format(self.auth_absence, auth_absence_min))
+        logging.debug("Authorised Absence: {} ({})".format(self.auth_absence, auth_absence_min))
         return auth_absence_min
 
     def _modify_total_time(self, mod, time):
@@ -89,13 +92,13 @@ class WorkDay(object):
 
         self.total_time = self._conv_time_int_to_str(self.total_time_min)
 
-        print("Modifying the total time by {} minutes to {} ({})".format(time, self.total_time, self.total_time_min))
+        logging.debug("Modifying the total time by {} minutes to {} ({})".format(time, self.total_time, self.total_time_min))
 
     def _check_still_working(self):
         if len(self.clockings)%2 != 0:
             self.no_clk_out = True
             self.add_clocking("{}:{:02d}".format(self.curr_time.hour, self.curr_time.minute))
-            print("No final clk out detected. Adding current time {}:{:02d} as a clk".format(self.curr_time.hour, self.curr_time.minute))
+            logging.debug("No final clk out detected. Adding current time {}:{:02d} as a clk".format(self.curr_time.hour, self.curr_time.minute))
 
     def calc_day_total_time(self):
         if len(self.clockings) == 0:
