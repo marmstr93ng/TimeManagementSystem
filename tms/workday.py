@@ -4,8 +4,6 @@ from time import strftime
 import re
 import math
 
-logging.config.fileConfig('logging/log_settings.conf')
-
 class WorkDay(object):
     def __init__(self):
         self.curr_time = datetime.datetime.now().time()
