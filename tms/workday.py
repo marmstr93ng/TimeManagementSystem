@@ -21,10 +21,11 @@ class WorkDay(object):
 
     def add_clocking(self, clock_str):
         self.clockings.append(clock_str)
+        logging.info("Adding Clock {}".format(clock_str))
 
     def get_break_rule_def(self, break_rule=None):
         if not break_rule: break_rule = self.break_rule
-        logging.error("{}: {}".format(break_rule, self.rule_def.get(break_rule,"Rule doesn't exist")))
+        logging.info("{}: {}".format(break_rule, self.rule_def.get(break_rule,"Rule doesn't exist")))
 
     def _conv_to_min(self, value, time_div):
         if time_div.lower() == 'h':
@@ -54,8 +55,10 @@ class WorkDay(object):
     def _check_after_two(self):
         time_clk_out = self._calc_clk_val(self.clockings[-1])
         if time_clk_out >= self._calc_clk_val("14:00"):
+            logging.debug("After two: {}".format(time_clk_out))
             return True
         else:
+            logging.debug("Not after two: {}".format(time_clk_out))
             return False
 
     def _calc_break_time(self):
