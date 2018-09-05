@@ -29,8 +29,6 @@ https://automatetheboringstuff.com/chapter11/ - Starting a Selenium-Controlled B
 
 
 ## ToDo (No order)
-1. Python project layout - modules? utilities (e.g. chromedriver, example_tms_page)
-2. Logging - methods should have output logged within them
 4. Multiple days - Total work week
 5. Develop web scraper - move to main.(must be kept as an optional step to fit into other TMSs)
 6. Verification check against TMS daily totals
