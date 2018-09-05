@@ -29,10 +29,10 @@ https://automatetheboringstuff.com/chapter11/ - Starting a Selenium-Controlled B
 
 
 ## ToDo (No order)
-4. Multiple days - Total work week
-5. Develop web scraper - move to main.(must be kept as an optional step to fit into other TMSs)
-6. Verification check against TMS daily totals
-7. Gui (QT)
-8. Scrape historic clock
-9. Trend (normal check in time for each day, number of work hours)
-10. Error Handling (e.g. should there be a valueerror if calculate total hours off no clocks)
+1. Multiple days - Total work week
+2. Develop web scraper - move to main.(must be kept as an optional step to fit into other TMSs)
+3. Verification check against TMS daily totals
+4. Gui (QT)
+5. Scrape historic clock
+6. Trend (normal check in time for each day, number of work hours)
+7. Error Handling (e.g. should there be a valueerror if calculate total hours off no clocks)
