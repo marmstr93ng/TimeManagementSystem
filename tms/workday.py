@@ -59,7 +59,6 @@ class WorkDay(object):
             return False
 
     def _calc_break_time(self):
-        logging.debug("Break Time Rule ID: {}".format(self.settings.get("Settings", "BreakRule")))
         if self.settings.get("Settings", "BreakRule") == "1":
             self.break_time = 15
             if self._check_after_two():

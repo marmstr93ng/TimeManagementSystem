@@ -20,7 +20,9 @@ class WorkWeek(object):
             "Sunday":WorkDay()}
 
         breakrule = BreakRule()
-        breakrule.update_break_rule()
+        #breakrule.update_break_rule()
+        breakrule.get_break_rule()
+        breakrule.get_break_rule("2")
 
         #today = WorkDay()
         #today.add_clocking("9:30")

@@ -21,6 +21,15 @@ class BreakRule(object):
         for rule in self.rules:
             logging.info('  [{}] {}'.format(rule.rule_id, rule.description))
 
+    def get_break_rule(self, desired_rule_id=None):
+        if not desired_rule_id: desired_rule_id = self.settings.get("Settings", "BreakRule")
+        logging.info(len(self.rules))
+        for rule in self.rules:
+            if rule.rule_id == desired_rule_id:
+                logging.info('  [{}] {}'.format(rule.rule_id, rule.description))
+            else:
+                logging.info("Rule doesn't exist")
+
     def update_break_rule(self):
         self.get_break_rules()
 
