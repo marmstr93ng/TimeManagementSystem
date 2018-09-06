@@ -1,5 +1,7 @@
 import logging
 import datetime
+import configparser
+import os
 from time import strftime
 import re
 import math
@@ -7,25 +9,20 @@ import math
 class WorkDay(object):
     def __init__(self):
         self.curr_time = datetime.datetime.now().time()
+
+        self.settings = configparser.ConfigParser()
+        self.settings.read("{}/tms/settings.ini".format(os.getcwd()))
+
         self.clockings = []
         self.no_clk_out = False
         self.total_time_min = 0
         self.total_time = ""
-        self.break_rule = "rule_1"
-        self.rule_def = {
-                        "rule_1":"If after 14:00, 45 minutes deducted",
-                        "rule_2":"15 minutes deducted on arrival with the remaining 30 minutes subtracted after 14:00"
-                        }
         self.break_time = 0
         self.auth_absence = "--:--"
 
     def add_clocking(self, clock_str):
         self.clockings.append(clock_str)
         logging.info("Adding Clock {}".format(clock_str))
-
-    def get_break_rule_def(self, break_rule=None):
-        if not break_rule: break_rule = self.break_rule
-        logging.info("{}: {}".format(break_rule, self.rule_def.get(break_rule,"Rule doesn't exist")))
 
     def _conv_to_min(self, value, time_div):
         if time_div.lower() == 'h':
@@ -55,18 +52,19 @@ class WorkDay(object):
     def _check_after_two(self):
         time_clk_out = self._calc_clk_val(self.clockings[-1])
         if time_clk_out >= self._calc_clk_val("14:00"):
-            logging.debug("After two: {}".format(time_clk_out))
+            logging.debug("After two ({})".format(time_clk_out))
             return True
         else:
-            logging.debug("Not after two: {}".format(time_clk_out))
+            logging.debug("Not after two ({})".format(time_clk_out))
             return False
 
     def _calc_break_time(self):
-        if self.break_rule == "rule_1":
+        logging.debug("Break Time Rule ID: {}".format(self.settings.get("Settings", "BreakRule")))
+        if self.settings.get("Settings", "BreakRule") == "1":
             self.break_time = 15
             if self._check_after_two():
                 self.break_time += 30
-        elif self.break_time == "rule_2":
+        elif self.settings.get("Settings", "BreakRule") == "2":
             if self._check_after_two():
                 self.break_time = 45
 
