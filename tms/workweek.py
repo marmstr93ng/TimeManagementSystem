@@ -1,30 +1,28 @@
 import logging
-import configparser
 import os
 
 from tms import WorkDay
 from tms.breakrule import BreakRule
 
 class WorkWeek(object):
-    def __init__(self):
-        self.settings = configparser.ConfigParser()
-        self.settings.read("{}/tms/settings.ini".format(os.getcwd()))
-
+    def __init__(self, settings):
+        self.settings = settings
         self.week = {
-            "Monday":WorkDay(),
-            "Tuesday":WorkDay(),
-            "Wednesday":WorkDay(),
-            "Thursday":WorkDay(),
-            "Friday":WorkDay(),
-            "Saturday":WorkDay(),
-            "Sunday":WorkDay()}
+            "Monday":WorkDay(self.settings),
+            "Tuesday":WorkDay(self.settings),
+            "Wednesday":WorkDay(self.settings),
+            "Thursday":WorkDay(self.settings),
+            "Friday":WorkDay(self.settings),
+            "Saturday":WorkDay(self.settings),
+            "Sunday":WorkDay(self.settings)}
 
-        breakrule = BreakRule()
-        #breakrule.update_break_rule()
-        breakrule.get_break_rule()
-        breakrule.get_break_rule("2")
+        #breakrule = BreakRule(self.settings)
+        #breakrule.print_rules()
+        #breakrule.get_break_rule()
+        #breakrule.get_break_rule("2")
+        #breakrule.cmd_update_break_rule()
 
-        #today = WorkDay()
+        #today = WorkDay(self.settings)
         #today.add_clocking("9:30")
         #today.add_clocking("10:49")
         #today.add_clocking("15:22")

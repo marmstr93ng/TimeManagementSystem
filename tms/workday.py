@@ -1,17 +1,14 @@
 import logging
 import datetime
-import configparser
-import os
 from time import strftime
 import re
 import math
 
 class WorkDay(object):
-    def __init__(self):
+    def __init__(self, settings):
         self.curr_time = datetime.datetime.now().time()
 
-        self.settings = configparser.ConfigParser()
-        self.settings.read("{}/tms/settings.ini".format(os.getcwd()))
+        self.settings = settings
 
         self.clockings = []
         self.no_clk_out = False

@@ -2,53 +2,59 @@ import logging
 import configparser
 import os
 
-from bool_query import bool_query
+from utils import bool_query
 
 class BreakRule(object):
-    def __init__(self):
-        self.settings = configparser.ConfigParser()
-        self.settings.read("{}/tms/settings.ini".format(os.getcwd()))
+    def __init__(self, settings):
+        self.settings = settings
 
-        self.breakrules = configparser.ConfigParser()
-        self.breakrules.read("{}/tms/breakrules.ini".format(os.getcwd()))
+        self.rules_record = configparser.ConfigParser()
+        self.rules_record.read("{}/tms/breakrules.ini".format(os.getcwd()))
 
-        self.rules = []
-        for rule_section in self.breakrules.sections():
-            self.rules.append(Rule(rule_section, self.breakrules))
+        self.rules = {}
+        for rule_id in self.rules_record.sections():
+            self.rules[rule_id] = self.rules_record.get(rule_id, "Description")
 
-    def get_break_rules(self):
+    def _check_rule_exists(self, rule_id):
+        if self.rules.get(rule_id, None) is None:
+            logging.warning("Rule {} doesn't exist".format(rule_id))
+            return False
+        else:
+            logging.debug("Rule {} exists".format(rule_id))
+            return True
+    
+    def _update_break_rule(self, rule_id):
+
+        self.settings.set("Settings", "BreakRule", rule_id)
+        with open("{}/tms/settings.ini".format(os.getcwd()), 'w') as configfile:
+            self.settings.write(configfile)
+        logging.info("Break rule changed to rule {}".format(self.settings.get("Settings", "BreakRule")))
+
+    def print_rules(self):
         logging.info("Break Rules: ")
-        for rule in self.rules:
-            logging.info('  [{}] {}'.format(rule.rule_id, rule.description))
+        for rule_id in self.rules:
+            logging.info('  [{}] {}'.format(rule_id, self.rules[rule_id]))
 
     def get_break_rule(self, desired_rule_id=None):
         if not desired_rule_id: desired_rule_id = self.settings.get("Settings", "BreakRule")
-        for rule in self.rules:
-            if rule.rule_id == desired_rule_id:
-                logging.info('  [{}] {}'.format(rule.rule_id, rule.description))
-            else:
-                logging.info("Rule doesn't exist")
+        if self._check_rule_exists(desired_rule_id):
+            for rule_id in self.rules:
+                if rule_id == desired_rule_id:
+                    logging.info('  [{}] {}'.format(rule_id, self.rules[desired_rule_id]))
 
-    def update_break_rule(self):
-        self.get_break_rules()
+    def cmd_update_break_rule(self):
+        self.print_rules()
 
         selection_query = None
         while selection_query is None:
             logging.info('Please enter the ID of the rule to be used...')
             selection = input()
             try:
-                selection_query = bool_query('Select Rule "{}" for use?'.format(self.rules[int(selection) - 1].rule_id), default="y")
-            except IndexError:
-                logging.warning('WARNING: Select rule ID has no rule associated with it. Select again.')
+                int(selection)
             except ValueError:
                 logging.warning('WARNING: Please enter a numeric value corresponding to a rule ID.')
-
-        self.settings.set("Settings", "BreakRule", selection)
-        logging.info("Break rule changed to rule {}".format(self.settings.get("Settings", "BreakRule")))
-
-
-class Rule(object):
-    def __init__(self, rule_section, breakrules):
-        self.rule_section = rule_section
-        self.rule_id = breakrules.get(rule_section, "RuleID")
-        self.description = breakrules.get(rule_section, "Description")
+            else:
+                if self._check_rule_exists(selection):
+                    selection_query = bool_query('Select Rule "{}" for use?'.format(selection, default="y"))
+        
+        self._update_break_rule(selection)
