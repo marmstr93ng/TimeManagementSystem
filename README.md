@@ -30,11 +30,11 @@ https://automatetheboringstuff.com/chapter11/ - Starting a Selenium-Controlled B
 
 ## ToDo (No order)
 1. Multiple days - Total work week
-2. Config file - store user specific details (break rule - read into workday) (rule options added here)
-3. Save current settings to config (break rule)
-2. Develop web scraper - move to main.(must be kept as an optional step to fit into other TMSs)
-3. Verification check against TMS daily totals
-4. Gui (QT)
-5. Scrape historic clock
-6. Trend (normal check in time for each day, number of work hours)
-7. Error Handling (e.g. should there be a valueerror if calculate total hours off no clocks)
+2. User Class - pass user settings to different modules
+3. Create User profile - asks name, work ID, break rule -> added to custom user settings file
+4. Develop web scraper - move to main.(must be kept as an optional step to fit into other TMSs)
+5. Verification check against TMS daily totals
+6. Gui (QT)
+7. Scrape historic clock
+8. Trend (normal check in time for each day, number of work hours)
+9. Error Handling (e.g. should there be a valueerror if calculate total hours off no clocks)
