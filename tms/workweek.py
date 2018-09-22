@@ -2,7 +2,7 @@ import logging
 import os
 
 from tms import WorkDay
-from tms.breakrule import BreakRule
+from tms import scraper
 
 class WorkWeek(object):
     def __init__(self, settings):
@@ -15,12 +15,8 @@ class WorkWeek(object):
             "Friday":WorkDay(self.settings),
             "Saturday":WorkDay(self.settings),
             "Sunday":WorkDay(self.settings)}
-
-        #breakrule = BreakRule(self.settings)
-        #breakrule.print_rules()
-        #breakrule.get_break_rule()
-        #breakrule.get_break_rule("2")
-        #breakrule.cmd_update_break_rule()
+        
+        #scraper()
 
         #today = WorkDay(self.settings)
         #today.add_clocking("9:30")

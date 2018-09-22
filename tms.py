@@ -4,7 +4,7 @@ import configparser
 import os
 
 from tms import WorkWeek
-#from tms import scraper
+from tms import BreakRule
 
 def main():
     """Function that defines the workflow of the tool"""
@@ -16,7 +16,12 @@ def main():
     settings.read("{}/tms/settings.ini".format(os.getcwd()))
 
     WorkWeek(settings)
-    #scraper()
+
+    #breakrule = BreakRule(self.settings)
+    #breakrule.print_rules()
+    #breakrule.get_break_rule()
+    #breakrule.get_break_rule("2")
+    #breakrule.cmd_update_break_rule()
 
 if __name__ == '__main__':
 
