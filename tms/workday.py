@@ -4,6 +4,26 @@ from time import strftime
 import re
 import math
 
+def _conv_to_min(value, time_div):
+    if time_div.lower() == 'h':
+        return value * 60
+
+def conv_time_str_to_int(time_str):
+    hour, minute = re.match("([0-9]+):([0-9]+)", time_str).groups()
+    return int(hour), int(minute)
+
+def conv_time_int_to_str(time_int):
+    hour = int(time_int/60)
+    minute = time_int%60
+    return "{}:{:02d}".format(hour, minute)
+
+def calc_clk_val(clk):
+    if clk == "--:--":
+        return 0
+    hour, minute = conv_time_str_to_int(clk)
+    return _conv_to_min(hour, 'h') + minute
+
+
 class WorkDay(object):
     def __init__(self, settings):
         self.curr_time = datetime.datetime.now().time()
@@ -12,43 +32,41 @@ class WorkDay(object):
 
         self.clockings = []
         self.no_clk_out = False
-        self.total_time_min = 0
-        self.total_time = ""
         self.break_time = 0
+        self.basic_hours = "--:--"
         self.auth_absence = "--:--"
+        self.total_time = "--:--"
 
     def add_clocking(self, clock_str):
         self.clockings.append(clock_str)
         logging.info("Adding Clock {}".format(clock_str))
+    
+    def calc_day_total_time(self):
+        if len(self.clockings) == 0:
+            raise ValueError("No Clockings added for the workday")
 
-    def _conv_to_min(self, value, time_div):
-        if time_div.lower() == 'h':
-            return value * 60
+        self._check_still_working()
 
-    def _conv_time_str_to_int(self, time_str):
-        hour, minute = re.match("([0-9]+):([0-9]+)", time_str).groups()
-        return int(hour), int(minute)
+        clk_pairs = math.ceil(len(self.clockings)/2)
+        for pair_num in range(0, clk_pairs):
+            self._modify_total_time("+", self._calc_pair_time_contrib(pair_num))
 
-    def _conv_time_int_to_str(self, time_int):
-        hour = int(time_int/60)
-        minute = time_int%60
-        return "{}:{:02d}".format(hour, minute)
+        self._modify_total_time("-", self._calc_break_time())
+        self.basic_hours = self.total_time
 
-    def _calc_clk_val(self, clk):
-        hour, minute = self._conv_time_str_to_int(clk)
-        return self._conv_to_min(hour, 'h') + minute
+        self._modify_total_time("+", self._calc_auth_absence())
 
     def _calc_pair_time_contrib(self, pair_num):
-        time_clk_in = self._calc_clk_val(self.clockings[pair_num * 2])
-        time_clk_out = self._calc_clk_val(self.clockings[(pair_num * 2) + 1])
+        time_clk_in = calc_clk_val(self.clockings[pair_num * 2])
+        time_clk_out = calc_clk_val(self.clockings[(pair_num * 2) + 1])
         pair_total_time = time_clk_out - time_clk_in
 
         logging.debug("Pair {} IN: {} ({}) OUT: {} ({}) Total: {}".format(pair_num, self.clockings[(pair_num * 2)], time_clk_in, self.clockings[(pair_num * 2) + 1], time_clk_out, pair_total_time))
         return pair_total_time
 
     def _check_after_two(self):
-        time_clk_out = self._calc_clk_val(self.clockings[-1])
-        if time_clk_out >= self._calc_clk_val("14:00"):
+        time_clk_out = calc_clk_val(self.clockings[-1])
+        if time_clk_out >= calc_clk_val("14:00"):
             logging.debug("After two ({})".format(time_clk_out))
             return True
         else:
@@ -68,43 +86,27 @@ class WorkDay(object):
         return self.break_time
 
     def _calc_auth_absence(self):
-        if self.auth_absence == "--:--":
-            auth_absence_min = 0
-        else:
-            auth_absence_min = self._calc_clk_val(self.auth_absence)
+        auth_absence_min = calc_clk_val(self.auth_absence)
 
         logging.debug("Authorised Absence: {} ({})".format(self.auth_absence, auth_absence_min))
         return auth_absence_min
 
     def _modify_total_time(self, mod, time):
+        total_time_min = calc_clk_val(self.total_time)
         if mod == "+":
-            self.total_time_min = self.total_time_min + time
+            total_time_min = total_time_min + time
 
         elif mod == "-":
-            self.total_time_min = self.total_time_min - time
+            total_time_min = total_time_min - time
         else:
             raise ValueError("modification string \'{}\' not supported".format(mod))
 
-        self.total_time = self._conv_time_int_to_str(self.total_time_min)
+        self.total_time = conv_time_int_to_str(total_time_min)
 
-        logging.debug("Modifying the total time by {} minutes to {} ({})".format(time, self.total_time, self.total_time_min))
+        logging.debug("Modifying the total time by {} minutes to {} ({})".format(time, self.total_time, total_time_min))
 
     def _check_still_working(self):
         if len(self.clockings)%2 != 0:
             self.no_clk_out = True
             self.add_clocking("{}:{:02d}".format(self.curr_time.hour, self.curr_time.minute))
             logging.debug("No final clk out detected. Adding current time {}:{:02d} as a clk".format(self.curr_time.hour, self.curr_time.minute))
-
-    def calc_day_total_time(self):
-        if len(self.clockings) == 0:
-            raise ValueError("No Clockings added for the workday")
-
-        self._check_still_working()
-
-        clk_pairs = math.ceil(len(self.clockings)/2)
-        for pair_num in range(0, clk_pairs):
-            self._modify_total_time("+", self._calc_pair_time_contrib(pair_num))
-
-        self._modify_total_time("-", self._calc_break_time())
-
-        self._modify_total_time("+", self._calc_auth_absence())
