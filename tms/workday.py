@@ -38,6 +38,9 @@ class WorkDay(object):
         self.total_time = "--:--"
 
     def add_clocking(self, clock_str):
+        if self.no_clk_out:
+            del self.clockings[-1]
+            self.no_clk_out = False
         self.clockings.append(clock_str)
         logging.info("Adding Clock {}".format(clock_str))
     
@@ -107,6 +110,6 @@ class WorkDay(object):
 
     def _check_still_working(self):
         if len(self.clockings)%2 != 0:
-            self.no_clk_out = True
             self.add_clocking("{}:{:02d}".format(self.curr_time.hour, self.curr_time.minute))
+            self.no_clk_out = True
             logging.debug("No final clk out detected. Adding current time {}:{:02d} as a clk".format(self.curr_time.hour, self.curr_time.minute))

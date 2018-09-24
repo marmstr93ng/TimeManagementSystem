@@ -29,11 +29,12 @@ https://automatetheboringstuff.com/chapter11/ - Starting a Selenium-Controlled B
 
 
 ## ToDo (No order)
-1. Multiple days - Total work week
-* A display of the information currently input
-* A menu system for action options (dict with key = option ID, Value is option description, ID triggers action) - If statement with action within
+1. Multiple days - Total work 
+* Bug allowed to enter hour or minute over reality (e.g. 8:98) - Improve verification
+* Doc string
+* Move menu class to module (to be used in top level tms.py)
+* Enter multiple clocks at one time for a day (list?)
 * Where to put this control TMS or workweek? - TMS - This week, User Settings, Exit - WorkWeek - Download tms data, add/update/remove clock, add/update/remove auth absense
-* After every action within workweek calculate total day/week time
 2. Remove/update clock or auth absense
 2. User Class - pass user settings to different modules
 3. Create User profile - asks name, work ID, break rule -> added to custom user settings file

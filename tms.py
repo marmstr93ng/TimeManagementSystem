@@ -3,7 +3,7 @@ import logging.config
 import configparser
 import os
 
-from tms import WorkWeek
+from tms import cmd_week
 from tms import BreakRule
 
 def main():
@@ -15,7 +15,7 @@ def main():
     settings = configparser.ConfigParser()
     settings.read("{}/tms/settings.ini".format(os.getcwd()))
 
-    WorkWeek(settings)
+    cmd_week(settings)
 
     #breakrule = BreakRule(self.settings)
     #breakrule.print_rules()
