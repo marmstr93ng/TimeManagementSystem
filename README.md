@@ -30,6 +30,7 @@ https://automatetheboringstuff.com/chapter11/ - Starting a Selenium-Controlled B
 
 ## ToDo (No order)
 1. Multiple days - Total work 
+2. Add utils to Pypi for easier install
 * Bug allowed to enter hour or minute over reality (e.g. 8:98) - Improve verification ^([0-1]?[0-9]{1}|[2]{1}[0-3]{1}):([0-5]{1}[0-9]{1})$ - add to add_clock method so that verification included in GUI as well. return status /True or false if added
 * Move menu class to module (to be used in top level tms.py)
 * Enter multiple clocks at one time for a day (list?)
