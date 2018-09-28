@@ -34,7 +34,7 @@ https://automatetheboringstuff.com/chapter11/ - Starting a Selenium-Controlled B
 * Move menu class to module (to be used in top level tms.py)
 * Enter multiple clocks at one time for a day (list?)
 * Where to put this control TMS or workweek? - TMS - This week, User Settings, Exit - WorkWeek - Download tms data, add/update/remove clock, add/update/remove auth absense
-2. Doc string
+2. Doc string - https://www.python.org/dev/peps/pep-0257/
 2. Remove/update clock or auth absense
 2. User Class - pass user settings to different modules
 3. Create User profile - asks name, work ID, break rule -> added to custom user settings file
