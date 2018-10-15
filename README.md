@@ -29,7 +29,7 @@ https://automatetheboringstuff.com/chapter11/ - Starting a Selenium-Controlled B
 
 
 ## ToDo (No order)
-2. Add utils to Pypi for easier install
+1. Add utils to Pypi for easier install
 4. Develop web scraper - move to main.(must be kept as an optional step to fit into other TMSs) - enable flag, url - general settings
 5. Verification check against TMS daily totals
 6. Gui (QT)
