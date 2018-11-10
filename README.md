@@ -29,19 +29,9 @@ https://automatetheboringstuff.com/chapter11/ - Starting a Selenium-Controlled B
 
 
 ## ToDo (No order)
-1. Multiple days - Total work 
-2. Add utils to Pypi for easier install
-* Move menu class to module (to be used in top level tms.py)
-* Enter multiple clocks at one time for a day (list?)
-* Where to put this control TMS or workweek? - TMS - This week, User Settings, Exit - WorkWeek - Download tms data, add/update/remove clock, add/update/remove auth absense
-2. Doc string - https://www.python.org/dev/peps/pep-0257/
-2. Remove/update clock or auth absense
-2. User Class - pass user settings to different modules
-3. Create User profile - asks name, work ID, break rule -> added to custom user settings file
+1. Add utils to Pypi for easier install
 4. Develop web scraper - move to main.(must be kept as an optional step to fit into other TMSs) - enable flag, url - general settings
 5. Verification check against TMS daily totals
 6. Gui (QT)
 7. Scrape historic clock
 8. Trend (normal check in time for each day, number of work hours)
-9. Error Handling (e.g. should there be a valueerror if calculate total hours off no clocks)
-10. Add docstring to methods
