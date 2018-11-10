@@ -53,6 +53,8 @@ class WorkDay(object):
     def calc_day_total_time(self):
         if len(self.clockings) == 0:
             raise ValueError("No Clockings added for the workday")
+        
+        self.total_time = "--:--"
 
         self._check_still_working()
 
@@ -103,10 +105,10 @@ class WorkDay(object):
     def _modify_total_time(self, mod, time):
         total_time_min = calc_clk_val(self.total_time)
         if mod == "+":
-            total_time_min = total_time_min + time
+            total_time_min += time
 
         elif mod == "-":
-            total_time_min = total_time_min - time
+            total_time_min -= time
         else:
             raise ValueError("modification string \'{}\' not supported".format(mod))
 
