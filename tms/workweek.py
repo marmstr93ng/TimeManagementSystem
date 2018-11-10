@@ -64,7 +64,7 @@ class WorkWeek(object):
     def calc_week_total_time(self):
         week_total_time_min = 0
         for name, day in self.week.items():
-            week_total_time_min = week_total_time_min + calc_clk_val(day.total_time)
+            week_total_time_min += calc_clk_val(day.total_time)
             logging.debug("Week Total Time in minutes after {}: {}".format(name, week_total_time_min))
         
         self.week_total_time = conv_time_int_to_str(week_total_time_min)
@@ -104,6 +104,7 @@ class ActionDisplayWeek(object):
         self.description = "Display the TMS information for the current week"
 
     def execute(self, workweek):
+        logging.info("")
         for name, day in workweek.week.items():
             logging.info("{:9}:: Clockings: {!s:60} {status} Basic Hours: {} Auth Absense: {} Total Time: {}".format(name, [clock for clock in day.clockings], day.basic_hours, day.auth_absence, day.total_time, status="True" if day.no_clk_out else "    "))
         logging.info("Total Week: {}".format(workweek.week_total_time))
