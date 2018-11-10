@@ -87,14 +87,9 @@ class ActionAddClock(object):
 
         while True:
             time = input("Input a clock time (hh:mm): ")
-            try:
-                re.match("([0-9]+):([0-9]+)", time).groups()
-            except AttributeError:
-                logging.warning("WARNING: Please select a properly format time")
-                continue
-            break
+            if day.add_clocking(time):
+                break
 
-        day.add_clocking(time)
         day.calc_day_total_time()
         workweek.calc_week_total_time()
         

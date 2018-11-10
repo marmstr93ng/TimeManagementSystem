@@ -38,11 +38,17 @@ class WorkDay(object):
         self.total_time = "--:--"
 
     def add_clocking(self, clock_str):
+        try:
+            re.match("^([0-1]?[0-9]{1}|[2]{1}[0-3]{1}):([0-5]{1}[0-9]{1})$", clock_str).groups()
+        except AttributeError:
+            logging.warning("WARNING: Please select a properly format time")
+            return False
         if self.no_clk_out:
             del self.clockings[-1]
             self.no_clk_out = False
         self.clockings.append(clock_str)
         logging.info("Adding Clock {}".format(clock_str))
+        return True
     
     def calc_day_total_time(self):
         if len(self.clockings) == 0:
