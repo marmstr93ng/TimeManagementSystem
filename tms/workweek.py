@@ -32,7 +32,7 @@ class Menu(object):
     
     def sel_action(self):
         while True:
-            action_key = input("Select an Option? ")
+            action_key = input("Select an Option? ").replace(" ", "")
             if action_key.lower() == 'q':
                 return False
             else:
@@ -77,7 +77,7 @@ class ActionAddClock(object):
         
     def execute(self, workweek):
         while True:
-            day_key = input("Input a day of the week: ")
+            day_key = input("Input a day of the week: ").replace(" ", "")
             try:
                 day = workweek.week[day_key.lower()]
             except KeyError:
@@ -86,7 +86,7 @@ class ActionAddClock(object):
             break
 
         while True:
-            time = input("Input a clock time (hh:mm): ")
+            time = input("Input a clock time (hh:mm): ").replace(" ", "")
             if day.add_clocking(time):
                 break
 
