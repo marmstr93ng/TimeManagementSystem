@@ -52,13 +52,13 @@ class WorkWeek(object):
         self.settings = settings
 
         self.week = {
+            "sunday":WorkDay(self.settings),
             "monday":WorkDay(self.settings),
             "tuesday":WorkDay(self.settings),
             "wednesday":WorkDay(self.settings),
             "thursday":WorkDay(self.settings),
             "friday":WorkDay(self.settings),
-            "saturday":WorkDay(self.settings),
-            "sunday":WorkDay(self.settings)}
+            "saturday":WorkDay(self.settings)}
         self.week_total_time = "--:--"
     
     def calc_week_total_time(self):
