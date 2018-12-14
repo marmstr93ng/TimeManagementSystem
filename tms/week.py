@@ -2,12 +2,11 @@ import logging
 import os
 import re
 
-from tms import WorkDay
-from tms import scraper
+from tms import Day
 from tms import calc_clk_val, conv_time_int_to_str
 
 def cmd_week(settings):
-    workweek = WorkWeek(settings)
+    week = Week(settings)
 
     action_options = {"add": ActionAddClock(), "dis": ActionDisplayWeek()}
     week_menu = Menu("Work Week Menu", action_options)
@@ -15,26 +14,26 @@ def cmd_week(settings):
     while True:
         week_menu.display_options()
         if not week_menu.sel_action(): break
-        week_menu.execute_action(workweek)
+        week_menu.execute_action(week)
 
 
-class WorkWeek(object):
+class Week(object):
     def __init__(self, settings):
         self.settings = settings
 
-        self.week = {
-            "sunday":WorkDay(self.settings),
-            "monday":WorkDay(self.settings),
-            "tuesday":WorkDay(self.settings),
-            "wednesday":WorkDay(self.settings),
-            "thursday":WorkDay(self.settings),
-            "friday":WorkDay(self.settings),
-            "saturday":WorkDay(self.settings)}
+        self.week_days = {
+            "sunday":Day(self.settings),
+            "monday":Day(self.settings),
+            "tuesday":Day(self.settings),
+            "wednesday":Day(self.settings),
+            "thursday":Day(self.settings),
+            "friday":Day(self.settings),
+            "saturday":Day(self.settings)}
         self.week_total_time = "--:--"
     
     def calc_week_total_time(self):
         week_total_time_min = 0
-        for name, day in self.week.items():
+        for name, day in self.week_days.items():
             week_total_time_min += calc_clk_val(day.total_time)
             logging.debug("Week Total Time in minutes after {}: {}".format(name, week_total_time_min))
         
@@ -75,11 +74,11 @@ class ActionAddClock(object):
     def __init__(self):
         self.description = "Add a clock to a desire day of the week"
         
-    def execute(self, workweek):
+    def execute(self, week):
         while True:
             day_key = input("Input a day of the week: ").replace(" ", "")
             try:
-                day = workweek.week[day_key.lower()]
+                day = week.week_days[day_key.lower()]
             except KeyError:
                     logging.warning("WARNING: Please select a day of the week.")
                     continue
@@ -91,15 +90,15 @@ class ActionAddClock(object):
                 break
 
         day.calc_day_total_time()
-        workweek.calc_week_total_time()
+        week.calc_week_total_time()
         
 
 class ActionDisplayWeek(object):
     def __init__(self):
         self.description = "Display the TMS information for the current week"
 
-    def execute(self, workweek):
+    def execute(self, week):
         logging.info("")
-        for name, day in workweek.week.items():
+        for name, day in week.week_days.items():
             logging.info("{:9}:: Clockings: {!s:60} {status} Basic Hours: {} Auth Absense: {} Total Time: {}".format(name, [clock for clock in day.clockings], day.basic_hours, day.auth_absence, day.total_time, status="True" if day.no_clk_out else "    "))
-        logging.info("Total Week: {}".format(workweek.week_total_time))
+        logging.info("Total Week: {}".format(week.week_total_time))

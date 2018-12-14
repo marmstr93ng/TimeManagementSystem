@@ -24,7 +24,7 @@ def calc_clk_val(clk):
     return _conv_to_min(hour, 'h') + minute
 
 
-class WorkDay(object):
+class Day(object):
     def __init__(self, settings):
         self.curr_time = datetime.datetime.now().time()
 
