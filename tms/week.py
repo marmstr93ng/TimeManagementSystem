@@ -5,7 +5,7 @@ import re
 from tms import Day
 from tms import calc_clk_val, conv_time_int_to_str
 
-def cmd_week(settings):
+def ctrl_week(settings):
     week = Week(settings)
 
     action_options = {"add": ActionAddClock(), "dis": ActionDisplayWeek()}
