@@ -18,6 +18,30 @@ def cmd_week(settings):
         week_menu.execute_action(workweek)
 
 
+class WorkWeek(object):
+    def __init__(self, settings):
+        self.settings = settings
+
+        self.week = {
+            "sunday":WorkDay(self.settings),
+            "monday":WorkDay(self.settings),
+            "tuesday":WorkDay(self.settings),
+            "wednesday":WorkDay(self.settings),
+            "thursday":WorkDay(self.settings),
+            "friday":WorkDay(self.settings),
+            "saturday":WorkDay(self.settings)}
+        self.week_total_time = "--:--"
+    
+    def calc_week_total_time(self):
+        week_total_time_min = 0
+        for name, day in self.week.items():
+            week_total_time_min += calc_clk_val(day.total_time)
+            logging.debug("Week Total Time in minutes after {}: {}".format(name, week_total_time_min))
+        
+        self.week_total_time = conv_time_int_to_str(week_total_time_min)
+        logging.debug("Week Total: {} ({})".format(self.week_total_time, week_total_time_min))
+
+
 class Menu(object):
     def __init__(self, title, action_options):
         self.menu_title = title
@@ -45,30 +69,6 @@ class Menu(object):
     
     def execute_action(self, *args):
         self.current_option.execute(*args)
-
-
-class WorkWeek(object):
-    def __init__(self, settings):
-        self.settings = settings
-
-        self.week = {
-            "sunday":WorkDay(self.settings),
-            "monday":WorkDay(self.settings),
-            "tuesday":WorkDay(self.settings),
-            "wednesday":WorkDay(self.settings),
-            "thursday":WorkDay(self.settings),
-            "friday":WorkDay(self.settings),
-            "saturday":WorkDay(self.settings)}
-        self.week_total_time = "--:--"
-    
-    def calc_week_total_time(self):
-        week_total_time_min = 0
-        for name, day in self.week.items():
-            week_total_time_min += calc_clk_val(day.total_time)
-            logging.debug("Week Total Time in minutes after {}: {}".format(name, week_total_time_min))
-        
-        self.week_total_time = conv_time_int_to_str(week_total_time_min)
-        logging.debug("Week Total: {} ({})".format(self.week_total_time, week_total_time_min))
 
 
 class ActionAddClock(object):
