@@ -50,7 +50,7 @@ class Day(object):
         logging.info("Adding Clock {}".format(clock_str))
         return True
     
-    def calc_day_total_time(self):
+    def calc_total_time(self):
         if len(self.clockings) == 0:
             raise ValueError("No Clockings added for the workday")
         

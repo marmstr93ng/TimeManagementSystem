@@ -29,16 +29,16 @@ class Week(object):
             "thursday":Day(self.settings),
             "friday":Day(self.settings),
             "saturday":Day(self.settings)}
-        self.week_total_time = "--:--"
+        self.total_time = "--:--"
     
-    def calc_week_total_time(self):
-        week_total_time_min = 0
+    def calc_total_time(self):
+        total_time_min = 0
         for name, day in self.week_days.items():
-            week_total_time_min += calc_clk_val(day.total_time)
-            logging.debug("Week Total Time in minutes after {}: {}".format(name, week_total_time_min))
+            total_time_min += calc_clk_val(day.total_time)
+            logging.debug("Week Total Time in minutes after {}: {}".format(name, total_time_min))
         
-        self.week_total_time = conv_time_int_to_str(week_total_time_min)
-        logging.debug("Week Total: {} ({})".format(self.week_total_time, week_total_time_min))
+        self.total_time = conv_time_int_to_str(total_time_min)
+        logging.debug("Week Total: {} ({})".format(self.total_time, total_time_min))
 
 
 class Menu(object):
@@ -89,8 +89,8 @@ class ActionAddClock(object):
             if day.add_clocking(time):
                 break
 
-        day.calc_day_total_time()
-        week.calc_week_total_time()
+        day.calc_total_time()
+        week.calc_total_time()
         
 
 class ActionDisplayWeek(object):
@@ -101,4 +101,4 @@ class ActionDisplayWeek(object):
         logging.info("")
         for name, day in week.week_days.items():
             logging.info("{:9}:: Clockings: {!s:60} {status} Basic Hours: {} Auth Absense: {} Total Time: {}".format(name, [clock for clock in day.clockings], day.basic_hours, day.auth_absence, day.total_time, status="True" if day.no_clk_out else "    "))
-        logging.info("Total Week: {}".format(week.week_total_time))
+        logging.info("Total Week: {}".format(week.total_time))
