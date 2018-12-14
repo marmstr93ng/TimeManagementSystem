@@ -1,3 +1,4 @@
+pytest==4.0.2
 selenium==3.14.0
 urllib3==1.23
 -e git+https://github.com/marmstr93ng/Utils.git@14002fc75d175689a89a2f48ab8955fb38003340#egg=utils
