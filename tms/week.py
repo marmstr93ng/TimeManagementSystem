@@ -6,7 +6,7 @@ from tms import ClockMinutes
 def ctrl_week(settings):
     week = Week(settings)
 
-    action_options = {"add": ActionAddClock(), "auth": ActionUpdateAuthAbsence(), "dis": ActionDisplayWeek()}
+    action_options = {"add": ActionAddClock(), "rem": ActionRemoveClock(), "auth": ActionUpdateAuthAbsence(), "dis": ActionDisplayWeek()}
     week_menu = Menu("Work Week Menu", action_options)
 
     while True:
@@ -82,6 +82,27 @@ class ActionAddClock(object):
         while True:
             time = input("Input a clock time (hh:mm): ").replace(" ", "")
             if day.change_attribute("add_clock", time):
+                break
+
+        week.calc_total_time()
+
+class ActionRemoveClock(object):
+    def __init__(self):
+        self.description = "Remove a clock from a desired day of the week"
+        
+    def execute(self, week):
+        while True:
+            day_key = input("Input a day of the week: ").replace(" ", "")
+            try:
+                day = week.week_days[day_key.lower()]
+            except KeyError:
+                    logging.warning("WARNING: Please select a day of the week.")
+                    continue
+            break
+
+        while True:
+            time = input("Input a clock time (hh:mm): ").replace(" ", "")
+            if day.change_attribute("remove_clock", time):
                 break
 
         week.calc_total_time()

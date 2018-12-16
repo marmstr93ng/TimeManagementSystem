@@ -46,9 +46,10 @@ class Day(object):
     def _calc_total_time(self):
         self._modify_for_incomplete_pair()
 
+        self.basic_hours = ClockMinutes(0)
+        self.total_time = ClockMinutes(0)
+
         if len(self.clockings) != 0:
-            self.total_time = ClockMinutes(0)
-        
             for pair_num in range(0, int(len(self.clockings)/2)):
                 self.total_time = ClockMinutes(self.total_time.minutes + self._calc_pair_time_contrib(pair_num))
                 logging.debug("New total time: {}".format(self.total_time))
