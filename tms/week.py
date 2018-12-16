@@ -81,10 +81,9 @@ class ActionAddClock(object):
 
         while True:
             time = input("Input a clock time (hh:mm): ").replace(" ", "")
-            if day.add_clocking(time):
+            if day.change_attribute("add_clock", time):
                 break
 
-        day.calc_total_time()
         week.calc_total_time()
         
 
@@ -95,5 +94,5 @@ class ActionDisplayWeek(object):
     def execute(self, week):
         logging.info("")
         for name, day in week.week_days.items():
-            logging.info("{:9}:: Clockings: {!s:60} {status} Basic Hours: {} Auth Absense: {} Total Time: {}".format(name, [clock for clock in day.clockings], day.basic_hours, day.auth_absence, day.total_time, status="True" if day.no_clk_out else "    "))
-        logging.info("Total Week: {}".format(week.total_time))
+            logging.info("{:9}:: Clockings: {!s:60} Basic Hours: {} Auth Absense: {} Total Time: {}".format(name, [clock.string for clock in day.clockings], day.basic_hours.string, day.auth_absence.string, day.total_time.string))
+        logging.info("Total Week: {}".format(week.total_time.string))

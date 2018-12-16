@@ -87,12 +87,12 @@ class Day(object):
     def _calc_break_time(self):
         self.break_time = ClockMinutes(0)
         if self.settings.get("Settings", "BreakRule") == "1":
+            if self._check_after_two():
+                self.break_time = ClockMinutes(45)
+        elif self.settings.get("Settings", "BreakRule") == "2":
             self.break_time = ClockMinutes(15)
             if self._check_after_two():
                 self.break_time = ClockMinutes(self.break_time.minutes + 30)
-        elif self.settings.get("Settings", "BreakRule") == "2":
-            if self._check_after_two():
-                self.break_time = ClockMinutes(45)
 
         logging.debug("Break Time in minutes: {}".format(self.break_time))
         return self.break_time.minutes

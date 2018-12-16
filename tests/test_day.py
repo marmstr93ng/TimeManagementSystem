@@ -102,7 +102,6 @@ class TestDayClass():
         assert self.day.change_attribute("add_clock", "4:00") == True
         assert self.day.change_attribute("add_clock", "89:00") == False
         assert self.day.change_attribute("add_clock", "4:76") == False
-        print([clock.string for clock in self.day.clockings])
         assert len(self.day.clockings) == 2
 
         assert self.day.change_attribute("remove_clock", "4:00") == True
