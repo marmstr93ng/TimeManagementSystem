@@ -22,9 +22,9 @@ class TestWeekClass():
         self.week.week_days["tuesday"].change_attribute("add_clock", "9:00")
         self.week.calc_total_time()
         if self.breakrule == "1":
-            result = "5:00"
-        elif self.breakrule == "2":
             result = "5:15"
+        elif self.breakrule == "2":
+            result = "5:00"
         else: # Breakrule not defined in test
             result = "0:00"
         assert self.week.total_time.string == result

@@ -70,14 +70,14 @@ class TestDayClass():
         assert self.day._check_after_two() == True
     
     def test_calc_break_time(self):
-        self.breakrule._update_break_rule("1")
+        self.breakrule._update_break_rule("2")
         self.day._add_clock("9:00")
         assert self.day._calc_break_time() == 15
 
         self.day._add_clock("17:00")
         assert self.day._calc_break_time() == 45
 
-        self.breakrule._update_break_rule("2")
+        self.breakrule._update_break_rule("1")
         self.day._remove_clock("17:00")
         assert self.day._calc_break_time() == 0
         self.day._add_clock("18:00")
@@ -88,8 +88,8 @@ class TestDayClass():
         self.day._calc_total_time()
         self.day._add_clock("12:45")
         self.day._calc_total_time()
-        assert self.day.total_time.minutes == (225 - 15 + 0)
-        assert self.day.basic_hours.minutes == (225 - 15)
+        assert self.day.total_time.minutes == (225 - 0 + 0)
+        assert self.day.basic_hours.minutes == (225 - 0)
         self.day._add_clock("15:00")
         self.day._calc_total_time()
         self.day._add_clock("16:00")
