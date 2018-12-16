@@ -21,7 +21,7 @@ class Day(object):
         try:
             re.match("^([0-1]?[0-9]{1}|[2]{1}[0-3]{1}):([0-5]{1}[0-9]{1})$", time).groups()
         except AttributeError:
-            logging.warning("WARNING: Please select a properly format time")
+            logging.warning("WARNING: Please select a properly format time.")
             return False
         getattr(self, "_{}".format(change))(time)
         self._calc_total_time()
@@ -34,10 +34,15 @@ class Day(object):
         logging.debug("Sorting the clocking list: {}".format([clock.string for clock in self.clockings]))
 
     def _remove_clock(self, time):
+        time_found = False
         for clock in self.clockings:
             if clock.string == time:
+                time_found = True
                 self.clockings.remove(clock)
                 logging.debug("Removing clock {} ({}) from clockings list".format(clock.minutes, clock.string))
+
+        if not time_found:
+            logging.warning("WARNING: Time not found in selected day.")
     
     def _update_auth_absence(self, string):
         self.auth_absence = ClockString(string)
