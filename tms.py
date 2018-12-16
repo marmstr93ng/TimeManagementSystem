@@ -17,11 +17,11 @@ def main():
 
     ctrl_week(settings)
 
-    #breakrule = BreakRule(self.settings)
+    #breakrule = BreakRule(settings)
     #breakrule.print_rules()
     #breakrule.get_break_rule()
     #breakrule.get_break_rule("2")
-    #breakrule.cmd_update_break_rule()
+    #breakrule.change_break_rule()
 
 if __name__ == '__main__':
 

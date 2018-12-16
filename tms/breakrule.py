@@ -42,7 +42,7 @@ class BreakRule(object):
                 if rule_id == desired_rule_id:
                     logging.info('  [{}] {}'.format(rule_id, self.rules[desired_rule_id]))
 
-    def cmd_update_break_rule(self):
+    def change_break_rule(self):
         self.print_rules()
 
         selection_query = None

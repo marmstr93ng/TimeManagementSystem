@@ -1,9 +1,7 @@
 import logging
-import os
-import re
 
 from tms import Day
-from tms import calc_clk_val, conv_time_int_to_str
+from tms import ClockMinutes
 
 def ctrl_week(settings):
     week = Week(settings)
@@ -29,16 +27,13 @@ class Week(object):
             "thursday":Day(self.settings),
             "friday":Day(self.settings),
             "saturday":Day(self.settings)}
-        self.total_time = "--:--"
+        self.total_time = ClockMinutes(0)
     
     def calc_total_time(self):
-        total_time_min = 0
+        self.total_time = ClockMinutes(0)
         for name, day in self.week_days.items():
-            total_time_min += calc_clk_val(day.total_time)
-            logging.debug("Week Total Time in minutes after {}: {}".format(name, total_time_min))
-        
-        self.total_time = conv_time_int_to_str(total_time_min)
-        logging.debug("Week Total: {} ({})".format(self.total_time, total_time_min))
+            self.total_time = ClockMinutes(self.total_time.minutes + day.total_time.minutes)
+            logging.debug("Week Total Time in minutes after {}: {}".format(name, self.total_time.minutes))
 
 
 class Menu(object):
